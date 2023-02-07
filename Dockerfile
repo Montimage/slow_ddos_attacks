@@ -1,5 +1,5 @@
 # Use an official image as the base image
-FROM node:14
+FROM node:19.4.0
 
 # Set the working directory in the container
 WORKDIR /app
@@ -16,4 +16,4 @@ ENV threads=100
 ENV API_HOST=host.docker.internal
 
 # Start the client
-CMD [ "sh", "-c", "node client_ddos.js ${ip} ${port} ${requests} ${threads} }"]
+CMD  node client_ddos.js ${ip} ${port} ${requests} ${threads} 
