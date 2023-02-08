@@ -13,7 +13,8 @@ ENV port=8000
 ENV ip=localhost
 ENV requests=1
 ENV threads=100
+ENV http_method=POST
 ENV API_HOST=host.docker.internal
 
 # Start the client
-CMD  node client_ddos.js ${ip} ${port} ${requests} ${threads} 
+CMD  node client_ddos.js ${ip} ${port} ${requests} ${threads} ${http_method}}

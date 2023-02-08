@@ -10,6 +10,7 @@ class Http2Request {
       this.port = port;
       this.numberOfRequests=numberOfRequests
     }
+
     connectToServer(){
       let address= 'https://'.concat(this.ip).concat(':').concat(this.port).concat('/');
       const client = http2.connect(address,{
@@ -19,7 +20,7 @@ class Http2Request {
         return client;
     }
 
-    async  makeRequestGet(){
+    async  makeRequestGet(id){
       const client=this.connectToServer();
     
       for (let i = 0; i <  this.numberOfRequests ; i++) {
@@ -36,12 +37,11 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 600));
           client.close();
         }
-
-
     }
+
     async  makeRequestPut(id){
       const client=this.connectToServer();
     
@@ -59,12 +59,11 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 600));
           client.close();
         }
-    
-    
     }
+
     async  makeRequestDelete(id){
       const client=this.connectToServer();
     
@@ -82,11 +81,9 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 600));
           client.close();
-        }
-    
-    
+        }  
     }
 
     
@@ -107,11 +104,13 @@ class Http2Request {
                 resolve();
               });
             });
-            await new Promise(resolve => setTimeout(resolve, 300));
+            await new Promise(resolve => setTimeout(resolve, 600));
           }
           client.close();
 
       }
       
   }
+
+  
   module.exports = Http2Request;

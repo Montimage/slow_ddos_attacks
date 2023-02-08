@@ -1,1 +1,1 @@
-node client_ddos.js --server=localhost --port=8000 --numberOfThreads 100 --numberOfRequests 10
+node client_ddos.jslocalhost 8000 100 10 POST
