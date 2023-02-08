@@ -17,4 +17,4 @@ ENV http_method=POST
 ENV API_HOST=host.docker.internal
 
 # Start the client
-CMD  node client_ddos.js ${ip} ${port} ${requests} ${threads} ${http_method}}
+CMD  node client_ddos.js ${ip} ${port} ${requests} ${threads} ${http_method}

@@ -1,16 +1,36 @@
 const http2 = require('http2');
-
+/**
+ * @class Http2Request
+ * @param ip: it represents the ip address of the server
+ * @param port: it represents the port of the server
+ * @param numberOfRequests: it represents the number of requests for each thread
+ * 
+ * 
+ * 
+ */
 class Http2Request {
+     /**
+     *
+     * @param {string} ip
+     * @param {number} port
+     * @param  {number} numberOfRequests
+     */
     ip;
     port;
     numberOfRequests;
 
     constructor(ip, port,numberOfRequests) {
-      this.ip = ip;
+      
+      this.ip = ip;  
       this.port = port;
       this.numberOfRequests=numberOfRequests
     }
-
+/**
+ * It establishes a secure connection with http2 server
+ * Note that in this case there is no mutual authentication, but only one way authentication
+ * @returns  a ClientHttp2Session instance through the object client
+ * 
+ */
     connectToServer(){
       let address= 'https://'.concat(this.ip).concat(':').concat(this.port).concat('/');
       const client = http2.connect(address,{
@@ -19,7 +39,19 @@ class Http2Request {
         });
         return client;
     }
-
+/**
+ * This functions establishes a connection to the server, then it make n GET requests with the path specified.
+ * The path is indicated in the Nokia.pkap file.
+ * Between one request and another it waits for 600 ms. It uses the mechanism of promises. In JavaScript, 
+ * a Promise is an object that represents a value that may not be available yet but will be at some point 
+ * in the future. Promises are used to handle asynchronous operations and provide a way to register callbacks 
+ * to be executed when the promise is resolved or rejected.Async/await
+ *  is a way of handling asynchronous operations in JavaScript using 
+ * syntax that is similar to synchronous code. The async keyword is used to declare a function as asynchronous, 
+ * and the await keyword is used to wait for a promise to be resolved before continuing with the next line of code.
+ * After sending the request, it closes the http2 session
+ * @param {number} id: it indicates the id of the current thread
+ */
     async  makeRequestGet(id){
       const client=this.connectToServer();
     
@@ -41,7 +73,13 @@ class Http2Request {
           client.close();
         }
     }
-
+/**
+ * This functions establishes a connection to the server, then it make n Put requests with the path specified.
+ * The path is indicated in the Nokia.pkap file.
+ * Between one request and another it waits for 600 ms. It uses the mechanism of promises explained previously.
+ * After sending the request, it closes the http2 session
+ * @param {number} id: it indicates the id of the current thread
+ */
     async  makeRequestPut(id){
       const client=this.connectToServer();
     
@@ -63,7 +101,13 @@ class Http2Request {
           client.close();
         }
     }
-
+/**
+ * This functions establishes a connection to the server, then it make n Put requests with the path specified.
+ * The path is indicated in the Nokia.pkap file.
+ * Between one request and another it waits for 600 ms. It uses the mechanism of promises explained previously.
+ * After sending the request, it closes the http2 session
+ * @param {number} id: it indicates the id of the current thread
+ */
     async  makeRequestDelete(id){
       const client=this.connectToServer();
     
@@ -86,7 +130,13 @@ class Http2Request {
         }  
     }
 
-    
+/**
+ * This functions establishes a connection to the server, then it make n Put requests with the path specified.
+ * The path is indicated in the Nokia.pkap file.
+ * Between one request and another it waits for 600 ms. It uses the mechanism of promises explained previously.
+ * After sending the request, it closes the http2 session
+ * @param {number} id: it indicates the id of the current thread
+ */
    async  makeRequestPost(id) {
     const client=this.connectToServer();
     
@@ -112,5 +162,5 @@ class Http2Request {
       
   }
 
-  
+  //it exports the class as a library to be used by other files
   module.exports = Http2Request;
