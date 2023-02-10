@@ -72,7 +72,6 @@ const Http2Request = require('./http2request');
             default:
               console.log("Insert a valid http2 method: POST - GET - DELETE - PUT");
               process.exit(1);
-              break;
 
 
 

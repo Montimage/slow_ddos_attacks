@@ -60,7 +60,7 @@ class Http2Request {
           const req = client.request({
               ':method': 'GET',
   
-              ':path': '/nudm-sdm/v2/imsi-460020301001001/sdm-subscriptions'
+              ':path': '/nudm-sdm/v2/imsi-460020301001001?dataset-names=AM,SMF_SEL'
             
           });
           req.end();
@@ -70,8 +70,9 @@ class Http2Request {
             });
           });
           await new Promise(resolve => setTimeout(resolve, 600));
-          client.close();
         }
+        client.close();
+
     }
 /**
  * This functions establishes a connection to the server, then it make n Put requests with the path specified.
@@ -98,8 +99,9 @@ class Http2Request {
             });
           });
           await new Promise(resolve => setTimeout(resolve, 600));
-          client.close();
         }
+        client.close();
+
     }
 /**
  * This functions establishes a connection to the server, then it make n Put requests with the path specified.
@@ -108,7 +110,7 @@ class Http2Request {
  * After sending the request, it closes the http2 session
  * @param {number} id: it indicates the id of the current thread
  */
-    async  makeRequestDelete(id){
+  async  makeRequestDelete(id){
       const client=this.connectToServer();
     
       for (let i = 0; i <  this.numberOfRequests ; i++) {
@@ -126,8 +128,9 @@ class Http2Request {
             });
           });
           await new Promise(resolve => setTimeout(resolve, 600));
-          client.close();
         }  
+        client.close();
+
     }
 
 /**
