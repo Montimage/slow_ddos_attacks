@@ -51,12 +51,13 @@ class Http2Request {
  * and the await keyword is used to wait for a promise to be resolved before continuing with the next line of code.
  * After sending the request, it closes the http2 session
  * @param {number} id: it indicates the id of the current thread
+ * Disclaimer: Javascript runs in one single thread, so it is not a real thread but an asynchronous operation that emulates it
  */
     async  makeRequestGet(id){
       const client=this.connectToServer();
     
       for (let i = 0; i <  this.numberOfRequests ; i++) {
-          console.log(`Thread ${i}: Making request ${i + 1}...`);
+          console.log(`Thread ${id}: Making request ${i + 1}...`);
           const req = client.request({
               ':method': 'GET',
   
@@ -69,7 +70,7 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 600));
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
         client.close();
 
@@ -85,7 +86,7 @@ class Http2Request {
       const client=this.connectToServer();
     
       for (let i = 0; i <  this.numberOfRequests ; i++) {
-          console.log(`Thread ${i}: Making request ${i + 1}...`);
+          console.log(`Thread ${id}: Making request ${i + 1}...`);
           const req = client.request({
               ':method': 'PUT',
   
@@ -98,7 +99,7 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 600));
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
         client.close();
 
@@ -127,7 +128,7 @@ class Http2Request {
               resolve();
             });
           });
-          await new Promise(resolve => setTimeout(resolve, 600));
+          await new Promise(resolve => setTimeout(resolve, 500));
         }  
         client.close();
 
@@ -157,7 +158,7 @@ class Http2Request {
                 resolve();
               });
             });
-            await new Promise(resolve => setTimeout(resolve, 600));
+            await new Promise(resolve => setTimeout(resolve, 500));
           }
           client.close();
 

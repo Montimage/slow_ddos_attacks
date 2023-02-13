@@ -31,7 +31,7 @@ const Http2Request = require('./http2request');
         case("POST"):
             for (let i = 0; i < numberOfThreads; i++) {
               promises.push(http2Request.makeRequestPost(i));
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              await new Promise(resolve => setTimeout(resolve, 100));
 
             }
             await Promise.all(promises);
@@ -41,7 +41,7 @@ const Http2Request = require('./http2request');
         case("GET"):
             for (let i = 0; i < numberOfThreads; i++) {
              promises.push(http2Request.makeRequestGet(i));
-             await new Promise(resolve => setTimeout(resolve, 2000));
+             await new Promise(resolve => setTimeout(resolve, 100));
 
             }
             await Promise.all(promises);
@@ -51,7 +51,7 @@ const Http2Request = require('./http2request');
         case("PUT"):
             for (let i = 0; i < numberOfThreads; i++) {
               promises.push(http2Request.makeRequestPut(i));
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              await new Promise(resolve => setTimeout(resolve, 100));
 
             }
             await Promise.all(promises);
@@ -62,7 +62,7 @@ const Http2Request = require('./http2request');
         case("DELETE"):
             for (let i = 0; i < numberOfThreads; i++) {
               promises.push(http2Request.makeRequestDelete(i));
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              await new Promise(resolve => setTimeout(resolve, 100));
 
             }
             await Promise.all(promises);
