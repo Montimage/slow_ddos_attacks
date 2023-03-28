@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+
+on:
+  push:
+   branches: [ main ]
+  pull_request:
+    branches: [ main ]
+      
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        echo "${{ secrets.DOCKER_SECRET }}" | docker login -u "franckccv" --password-stdin
+        docker image build -t franckccv/slow_ddos_attack .
+        docker push franckccv/slow_ddos_attack:1.0
